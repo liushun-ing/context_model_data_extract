@@ -161,3 +161,7 @@ cython_debug/
 
 2023_dataset/
 .idea/
+data_count/ECF
+data_count/Mylyn
+data_count/PDE
+data_count/Platform

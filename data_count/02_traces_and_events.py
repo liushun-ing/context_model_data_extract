@@ -62,7 +62,7 @@ def get_duration_of_event(date_list: list[str]):
         time2 = datetime.strptime(date_list[i + 1], '%Y-%m-%d %H:%M:%S')
         duration = time2 - time1
         duration_list.append(duration.seconds + duration.days * 86400)
-    return sum(duration_list) / len(duration_list)
+    return sum(duration_list) / len(duration_list)  # 这里基数应该还要减一，不过不影响了，这里的这个数据不重要
 
 
 for project in project_dir_list:

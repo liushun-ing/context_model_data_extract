@@ -5,4 +5,4 @@ url = 'https://bugs.eclipse.org/bugs/buglist.cgi?bug_status=CLOSED&bug_status=RE
 
 name = 'Mylyn'
 
-total_bugs = 8181  # 8081 - 1
+total_bugs = 8181  # 8181 - 1

@@ -1,4 +1,4 @@
-# 对event进行过滤
+# 对StructureKind == resource的event进行过滤
 import os
 from os.path import isdir, join
 import xml.etree.ElementTree as ET
@@ -39,8 +39,8 @@ def init_xsl():
 def save_xsl(project_name: str, bug_id: str):
     global write_excel
     file_path = os.path.dirname(os.path.realpath(__file__))
-    make_dir(project_name)
-    file_name = os.path.join(file_path, project_name + "/" + bug_id + ".xls")
+    make_dir("resource/" + project_name)
+    file_name = os.path.join(file_path, "resource/" + project_name + "/" + bug_id + ".xls")
     if os.path.exists(file_name):
         os.remove(file_name)
     # 保存文件
@@ -61,7 +61,6 @@ path = '../2023_dataset/mylyn_zip'
 
 project_dir_list = os.listdir(path)
 
-all_structureKind = set([])
 for project in project_dir_list:
     project_path = join(path, project)
     if not isdir(project_path):
@@ -70,8 +69,6 @@ for project in project_dir_list:
     bug_dir_list = os.listdir(project_path)
     # 进入bug目录
     for bug in sorted(bug_dir_list, key=len):
-        # if int(bug) < 232982:
-        #     continue
         xml_counts = 0  # 当前bug的xml文件个数，也就是Interaction Traces个数
         bug_path = join(project_path, bug)
         if not isdir(bug_path):
@@ -98,7 +95,6 @@ for project in project_dir_list:
                 root = tree.getroot()
                 # 拿到所有的InteractionEvent
                 events_nodes = root.findall('InteractionEvent')
-                event_counts = len(events_nodes)  # xml文件中的InteractionEvent个数
                 event_sum = 0
                 for event in events_nodes:
                     # 161443 mylyn
@@ -106,8 +102,8 @@ for project in project_dir_list:
                     event_structure_kind = event.attrib.get('StructureKind')
                     event_start_date = get_common_time(event.attrib.get('StartDate'))
                     event_structure_handle = event.attrib.get('StructureHandle')
-                    # all_structureKind.add(event_structure_kind)
-                    if (event_kind == 'selection' or event_kind == 'edit') and event_structure_kind == 'java':
+                    if (event_kind == 'selection' or event_kind == 'edit') and event_structure_kind == 'resource' and (
+                            event_structure_handle.endswith('.java') or event_structure_handle.find('.java[') > -1):
                         event_sum += 1
                         write_xsl([bug, event_kind, event_structure_kind, event_structure_handle, event_start_date])
                         print("{} bug {} event, StartDate is {}, StructureHandle is {}".format(bug, event_kind,
@@ -115,4 +111,3 @@ for project in project_dir_list:
                                                                                                event_structure_handle))
                 if event_sum > 0:
                     save_xsl(project, bug)
-print("all_structure_kind", all_structureKind)

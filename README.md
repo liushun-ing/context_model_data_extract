@@ -16,4 +16,5 @@
 - /data_count: 用来进行数据的统计等，比如01解压zip文件，得到xml文件，02统计开始时间和event个数等、03过滤event,04统计有效event数目
 
 - /model_formation: Code Context Model Formation，根据时间间隔分割working
-  periods，得到分割后的时间片数据，保存在xls文件中，其中02指的是对resource事件也进行数据的收集工作，可能存在访问代码元素事件
+  periods，得到分割后的时间片数据，保存在xls文件中，其中02指的是对resource事件也进行数据的收集工作，可能存在访问代码元素事件 ; 03对working
+  period中一些event的structureHandle进行了有效性的过滤，并导出到了`/model_formation/code_element`文件夹下
